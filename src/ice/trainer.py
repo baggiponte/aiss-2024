@@ -102,22 +102,6 @@ class Trainer:
     def configure_loss(self) -> torch.nn.Module:
         return torch.nn.CrossEntropyLoss()
 
-    def training_step(self, X, y) -> torch.Tensor:
-        # Move data to device
-        X, y = X.to(self.device, dtype=torch.float16), y.to(self.device)
-
-        # Forward pass
-        logits = self.model(X)
-        return self.loss_fn(logits, y)
-
-    def validation_step(self, X, y) -> tuple[torch.Tensor, torch.Tensor]:
-        # Move data to device
-        X, y = X.to(self.device, dtype=torch.float16), y.to(self.device)
-
-        # Forward pass
-        logits = self.model(X)
-        return logits, self.loss_fn(logits, y)
-
     def training_loop(self) -> None:
         size = len(self.train_dataloader.dataset)
 
@@ -127,7 +111,12 @@ class Trainer:
 
         for batch_idx, (X, y) in enumerate(self.train_dataloader):
             # Compute prediction and loss
-            loss = self.training_step(X, y)
+            # Move data to device
+            X, y = X.to(self.device, dtype=torch.float32), y.to(self.device)
+
+            # Forward pass
+            logits = self.model(X)
+            loss = self.loss_fn(logits, y)
 
             # Backpropagation
             loss.backward()
@@ -151,9 +140,15 @@ class Trainer:
         # also serves to reduce unnecessary gradient computations and memory usage for tensors with requires_grad=True
         with torch.no_grad():
             for X, y in self.val_dataloader:
-                predictions, loss = self.validation_step(X, y)
+                # Move data to device
+                X, y = X.to(self.device, dtype=torch.float32), y.to(self.device)
+
+                # Forward pass
+                logits = self.model(X)
+                loss = self.loss_fn(logits, y)
+
                 test_loss += loss.item()
-                correct += (predictions.argmax(1) == y).type(torch.float).sum().item()
+                correct += (logits.argmax(1) == y).type(torch.float).sum().item()
 
         test_loss /= num_batches
         correct /= size
