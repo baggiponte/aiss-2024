@@ -1,9 +1,5 @@
 # 🍨 AI Summer School 2024
 
-<div style="text-align: center;">
-    <a href="https://summerschoolsanpellegrino2024.unibg.it/" style="font-style: italic; font-size: smaller;">Sito ufficiale</a>
-</div>
-
 Benvenuti a un affascinante viaggio nel mondo dell'intelligenza artificiale! In questo laboratorio, esploreremo Python, il linguaggio di programmazione per eccellenza tra chi si occupa di intelligenza artificiale.
 
 Inizieremo dalle basi di Python, costruendo gradualmente le nostre conoscenze. Poi, rappresenteremo parole e immagini tramite gli *embedding*, una tecnica per "codificare" immagini come serie di numeri e permettere ai computer di "comprendere" e analizzare dati complessi come fotografie e testo.
