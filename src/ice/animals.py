@@ -150,7 +150,14 @@ def define_my_zoo(animals, zoo_name, origin):
     return files, labels, names
 
 
-def update_UMAP(n_slider, d_slider):
+def update_UMAP(
+    n_slider,
+    d_slider,
+    my_pictures,
+    embeddings,
+    labels,
+    names,
+):
     """Aggiorna grafico scatter UMAP tramite slider"""
 
     # Crea un oggetto UMAP con i parametri specificati dagli slider e lo addestra senza le immagini di test
@@ -222,7 +229,14 @@ def update_UMAP(n_slider, d_slider):
     return fig
 
 
-def update_KMeans(k_slider):
+def update_KMeans(
+    k_slider,
+    my_pictures,
+    umap_reducer,
+    embedding_2d,
+    labels,
+    names,
+):
     """Aggiorna grafico scatter K-Means tramite slider"""
 
     embedded_data = pd.DataFrame(embedding_2d, columns=["UMAP_x", "UMAP_y"])
