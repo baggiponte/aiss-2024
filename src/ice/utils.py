@@ -35,7 +35,6 @@ def display(dataset: Dataset, **kwargs):
 
         cmap = kwargs.pop("cmap", "gray")
 
-        print(cmap, kwargs)
         plt.imshow(picture.permute(1, 2, 0), cmap=cmap, **kwargs)
         plt.title(dataset.classes[label])
 
