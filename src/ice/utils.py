@@ -1,13 +1,17 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import matplotlib.pyplot as plt
 import torch
 import torchvision.transforms.v2 as tfs
 from ipywidgets import interact
-from torch.utils.data import Dataset
 from torchvision.datasets import MNIST
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from torch.utils.data import Dataset
 
 
 def load_mnist(
@@ -22,15 +26,18 @@ def load_mnist(
     return train_set, test_set
 
 
-def display(dataset: Dataset):
+def display(dataset: Dataset, **kwargs):
     size = len(dataset)
 
     @interact(index=(1, size, 1))
     def inner(index):
         picture, label = dataset[index - 1]
 
-        plt.imshow(picture.permute(1, 2, 0), cmap="grey")
-        plt.title(label)
+        cmap = kwargs.pop("cmap", "gray")
+
+        print(cmap, kwargs)
+        plt.imshow(picture.permute(1, 2, 0), cmap=cmap, **kwargs)
+        plt.title(dataset.classes[label])
 
 
 def find_device(device):
